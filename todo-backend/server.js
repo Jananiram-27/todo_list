@@ -1,3 +1,4 @@
+require("dotenv").config(); 
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -10,14 +11,16 @@ app.use(cors({
   
   //mongodb://127.0.0.1:27017/mern-app
 
-mongoose.connect('mongodb://127.0.0.1:27017/mern-app')
+  mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
 .then(() => {
     console.log('DB Connected!')
 })
 .catch((err) => {
-    console.log(err)
-})
-
+    console.log("MongoDB connection error:", err);
+});
 const todoSchema = new mongoose.Schema({
     title: {
         required : true,
@@ -94,7 +97,8 @@ app.delete('/todos/:id', async (req, res) => {
 });
 
 
-const port = 8000;
+const port = process.env.PORT || 8000;
+
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });
