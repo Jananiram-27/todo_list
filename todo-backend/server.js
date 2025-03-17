@@ -96,6 +96,10 @@ app.delete('/todos/:id', async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.send("Backend is running!");
+});
+
 
 const port = process.env.PORT || 8000;
 
