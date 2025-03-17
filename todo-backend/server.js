@@ -11,16 +11,13 @@ app.use(cors({
   
   //mongodb://127.0.0.1:27017/mern-app
 
-  mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => {
-    console.log('DB Connected!')
-})
-.catch((err) => {
-    console.log("MongoDB connection error:", err);
-});
+
+
+mongoose
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("✅ DB Connected!"))
+  .catch((err) => console.error("❌ DB Connection Error:", err));
+
 const todoSchema = new mongoose.Schema({
     title: {
         required : true,
