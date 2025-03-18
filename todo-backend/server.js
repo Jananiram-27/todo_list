@@ -6,20 +6,16 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 
-// ✅ Fix: Correct CORS for both local & deployed frontend
+// ✅ CORS: Allow only localhost for local testing
+app.use(cors());
 
 
-app.use(cors({
-    origin: ['http://localhost:3000', 'https://todo-list-svsr-jzzizxlhs-jananis-projects-d77344ed.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-}));
-
-
-// ✅ Fix: Correct MongoDB connection (without warnings)
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("✅ DB Connected!"))
-    .catch((err) => console.error("❌ DB Connection Error:", err));
+// ✅ MongoDB Connection
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => console.log("✅ DB Connected!"))
+  .catch((err) => console.error("❌ DB Connection Error:", err));
 
 // ✅ Define Schema & Model
 const todoSchema = new mongoose.Schema({
@@ -28,12 +24,9 @@ const todoSchema = new mongoose.Schema({
 });
 const Todo = mongoose.model("Todo", todoSchema);
 
-// ✅ API Route: Home
-app.get("/", (req, res) => {
-    res.send("Backend is running...");
-});
+// ✅ API Routes
+app.get("/", (req, res) => res.send("Backend is running..."));
 
-// ✅ API Route: Get All To-Dos
 app.get("/api/todos", async (req, res) => {
     try {
         const todos = await Todo.find().lean();
@@ -43,7 +36,6 @@ app.get("/api/todos", async (req, res) => {
     }
 });
 
-// ✅ API Route: Create a To-Do
 app.post("/api/todos", async (req, res) => {
     try {
         const { title, description } = req.body;
@@ -55,7 +47,6 @@ app.post("/api/todos", async (req, res) => {
     }
 });
 
-// ✅ API Route: Update a To-Do
 app.put("/api/todos/:id", async (req, res) => {
     try {
         const { title, description } = req.body;
@@ -71,7 +62,6 @@ app.put("/api/todos/:id", async (req, res) => {
     }
 });
 
-// ✅ API Route: Delete a To-Do
 app.delete("/api/todos/:id", async (req, res) => {
     try {
         const deletedTodo = await Todo.findByIdAndDelete(req.params.id);
@@ -85,10 +75,3 @@ app.delete("/api/todos/:id", async (req, res) => {
 // ✅ Start Server
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`🚀 Server running on port ${port}`));
-
-
-
-
-
-
-
