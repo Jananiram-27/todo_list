@@ -7,11 +7,14 @@ const app = express();
 app.use(express.json());
 
 // ✅ Fix: Correct CORS for both local & deployed frontend
+
+
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://your-frontend.vercel.app'],
+    origin: ['http://localhost:3000', 'https://todo-list-svsr-jzzizxlhs-jananis-projects-d77344ed.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
+
 
 // ✅ Fix: Correct MongoDB connection (without warnings)
 mongoose.connect(process.env.MONGO_URI)
