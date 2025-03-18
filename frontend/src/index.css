@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background: #6f7a4f;
+  background: #d8dbd3;
   margin: 0;
   padding: 20px;
   display: flex;
@@ -8,15 +8,16 @@ body {
 }
 
 .container {
-  background: rgb(148, 169, 72);
+  background: rgb(14, 10, 33);
   padding: 20px;
   width: 400px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(99, 94, 94, 0.1);
 }
 
 h2 {
   text-align: center;
+  color: white;
 }
 
 .form {
@@ -45,7 +46,7 @@ button:hover {
 
 button.add {
   background: green;
-  color: white;
+  color: rgb(235, 223, 223);
 }
 
 button.update {
