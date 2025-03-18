@@ -6,10 +6,14 @@ const Todo = () => {
     const [description, setDescription] = useState("");
     const [editId, setEditId] = useState(null); // Store ID for editing
 
+    // Get backend URL from .env
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    console.log("Backend URL:", BACKEND_URL);
+
     // Fetch To-Do items from the backend
     const getItems = async () => {
         try {
-            const response = await fetch("/api/todos"); // ✅ Using proxy /api
+            const response = await fetch(`${BACKEND_URL}/api/todos`);
             const data = await response.json();
             setTodos(data);
         } catch (error) {
@@ -24,7 +28,7 @@ const Todo = () => {
         try {
             if (editId) {
                 // ✅ Update To-Do
-                await fetch(`/api/todos/${editId}`, {
+                await fetch(`${BACKEND_URL}/api/todos/${editId}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ title, description }),
@@ -32,7 +36,7 @@ const Todo = () => {
                 setEditId(null);
             } else {
                 // ✅ Add New To-Do
-                await fetch("/api/todos", {
+                await fetch(`${BACKEND_URL}/api/todos`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ title, description }),
@@ -51,7 +55,7 @@ const Todo = () => {
         if (!window.confirm("Are you sure you want to delete this task?")) return;
 
         try {
-            await fetch(`/api/todos/${id}`, { method: "DELETE" });
+            await fetch(`${BACKEND_URL}/api/todos/${id}`, { method: "DELETE" });
             getItems(); // Refresh list
         } catch (error) {
             console.error("Error deleting todo:", error);
