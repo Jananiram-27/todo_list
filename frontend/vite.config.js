@@ -4,17 +4,19 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3500, // Set frontend to run on port 3500
-    strictPort: true, // Ensures the exact port is used
+    port: 3500,
+    strictPort: true,
     hmr: {
-      overlay: false, // Disable WebSocket error overlay
+      protocol: 'ws',
+      host: 'localhost',
+      port: 3500,
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:8000', // Your backend URL
+        target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
-        ws: true, // Enable WebSocket proxy
+        ws: true, // Allow WebSocket connections
       }
     }
   }
